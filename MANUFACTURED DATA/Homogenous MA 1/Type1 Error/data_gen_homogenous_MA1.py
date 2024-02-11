@@ -49,13 +49,11 @@ def generate_staggered_law_ma1_data(N, T, theta, num_individuals, mean=0, std_de
     
     state_dummies = pd.get_dummies(data['state'], prefix='state', drop_first = True)  # Creating state dummy variables
 
-    
-    state_dummies = state_dummies.astype(int)  
-
    
+    state_dummies = state_dummies.astype(int)  
+  
     time_dummies = pd.get_dummies(data['time'].astype(int), prefix='time', drop_first = True)  # Creating time dummy variables
 
-   
     time_dummies = time_dummies.astype(int)
 
     data = pd.concat([data, state_dummies, time_dummies], axis=1)

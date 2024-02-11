@@ -1,6 +1,6 @@
 import pandas as pd
 import statsmodels.api as sm
-from cps_data_prep import (cps_data)
+from cps_data_prep import cps_data
 
 def process_cps_data(file_path):
 
