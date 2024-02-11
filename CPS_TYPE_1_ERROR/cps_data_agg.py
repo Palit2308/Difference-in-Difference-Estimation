@@ -1,5 +1,4 @@
 import pandas as pd
-import numpy as np
 import statsmodels.api as sm
 from cps_data_prep import (cps_data)
 
@@ -7,15 +6,14 @@ def process_cps_data(file_path):
 
     df = cps_data(file_path)
 
-    X = df[['High School', "Master's Degree", 'Up to Grade 10', 'AGE']]
+    X = df[['High School', "Master's Degree", 'Up to Grade 10', 'AGE']] # the covariates used 1st stage of data aggregation
     y = df['INCWAGE']
 
     X = sm.add_constant(X)
 
     model = sm.OLS(y, X).fit()
 
-    # Obtain predicted values from the fitted model
-    y_pred = model.predict(X)
+    y_pred = model.predict(X)  # obtaining the predicted values of the model
 
     residuals = y - y_pred
 
@@ -27,13 +25,12 @@ def process_cps_data(file_path):
 
     dummy_df = pd.get_dummies(residuals_mean_by_state_year['STATEFIP'], prefix='STATEFIP', drop_first=True)
 
-    # Concatenate the dummy variables with the original DataFrame
-    residuals_mean_by_state_year1 = pd.concat([residuals_mean_by_state_year, dummy_df], axis=1)
+    residuals_mean_by_state_year1 = pd.concat([residuals_mean_by_state_year, dummy_df], axis=1)   # concatenating the dummy variables with the original DataFrame
 
     dummy_df2 = pd.get_dummies(residuals_mean_by_state_year1['YEAR'], prefix='YEAR', drop_first=True)
 
-    # Concatenate the dummy variables with the original DataFrame
-    residuals_mean_by_state_year1 = pd.concat([residuals_mean_by_state_year1, dummy_df2], axis=1)
+
+    residuals_mean_by_state_year1 = pd.concat([residuals_mean_by_state_year1, dummy_df2], axis=1)  # concatenating the dummy variables with the original DataFrame
 
     boolean_columns = [ 'STATEFIP_2',
         'STATEFIP_4', 'STATEFIP_5', 'STATEFIP_6', 'STATEFIP_8', 'STATEFIP_9',
@@ -53,7 +50,7 @@ def process_cps_data(file_path):
         'YEAR_1993', 'YEAR_1994', 'YEAR_1995', 'YEAR_1996', 'YEAR_1997',
         'YEAR_1998', 'YEAR_1999', 'YEAR_2000']
 
-    # Convert True and False to 1 and 0 in the specified columns
-    residuals_mean_by_state_year1[boolean_columns] = residuals_mean_by_state_year1[boolean_columns].astype(int)
+    
+    residuals_mean_by_state_year1[boolean_columns] = residuals_mean_by_state_year1[boolean_columns].astype(int)  # converting True and False to 1 and 0 in the specified columns
 
     return residuals_mean_by_state_year1
