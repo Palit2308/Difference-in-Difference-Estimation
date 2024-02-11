@@ -11,6 +11,9 @@ def cps_data(file_path):
     
     df = df[(df['INCWAGE'] != 99999999) & (df['INCWAGE'] != 0) & (df['INCWAGE'] != 999)]  # dropping the rows containing invalid INCWAGE
 
+    df['INCWAGE'] = np.log(df['INCWAGE'])  # taking log of weekly earnings which will be our dependent variable in the regressions
+
+
     df = df[(df['EDUC'] != 0) & (df['EDUC'] != 1)]  # dropping education levels 0 and 1 as they are invalid entries as per the labels of the dataset
 
     df = df[(df['YEAR'] >= 1980) & (df['YEAR'] <= 2000)]  # taking the time frame from 1980 to 2000

@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-def generate_staggered_law_ar1_data(N, T, rho, num_individuals, mean=0, std_dev=1):
+def generate_staggered_law_ma1_data(N, T, theta, num_individuals, mean=0, std_dev=1):
     
     white_noise = np.random.normal(mean, std_dev, size=(N, num_individuals, T)) # generatingk random white noise for each individual
 
@@ -22,7 +22,7 @@ def generate_staggered_law_ar1_data(N, T, rho, num_individuals, mean=0, std_dev=
                 if t == 0:
                     data[i, j, t] = alpha + beta + white_noise[i, j, t]
                 else:
-                    data[i, j, t] = alpha + beta + rho * data[i, j, t - 1] + white_noise[i, j, t]
+                    data[i, j, t] = alpha + beta + theta * white_noise[i, j, t - 1] + white_noise[i, j, t]
 
     
     reshaped_data = data.reshape((N * num_individuals, T))  # Reshaping the data array for easier DataFrame creation
@@ -46,6 +46,18 @@ def generate_staggered_law_ar1_data(N, T, rho, num_individuals, mean=0, std_dev=
     data = melted_df.copy()
 
     data['time'] = data['time'].astype(int)
+    
+    state_dummies = pd.get_dummies(data['state'], prefix='state', drop_first = True)  # Creating state dummy variables
+
+    
+    state_dummies = state_dummies.astype(int)  
 
    
+    time_dummies = pd.get_dummies(data['time'].astype(int), prefix='time', drop_first = True)  # Creating time dummy variables
+
+   
+    time_dummies = time_dummies.astype(int)
+
+    data = pd.concat([data, state_dummies, time_dummies], axis=1)
+
     return data
