@@ -45,35 +45,5 @@ def generate_staggered_law_ar1_data(N, T, rho, num_individuals, mean=0, std_dev=
 
     data = melted_df.copy()
 
-    data['time'] = data['time'].astype(int)
-    
-    state_dummies = pd.get_dummies(data['state'], prefix='state', drop_first = True)  # Creating state dummy variables
-
-    
-    state_dummies = state_dummies.astype(int)  
-
-   
-    time_dummies = pd.get_dummies(data['time'].astype(int), prefix='time', drop_first = True)  # Creating time dummy variables
-
-   
-    time_dummies = time_dummies.astype(int)
-
-    data = pd.concat([data, state_dummies, time_dummies], axis=1)
-
-    states = data['state'].unique()
-
-    # To give the treatment to exactly half the states in a staggered approach
-    
-    treatment_states = np.random.choice(states, size=len(states)//2, replace=False)
-
-    # Assigning treatment year to each treatment state, staggered between 5 and 15th time period
-
-    treatment_years = np.random.choice(range(5, 15), size=len(treatment_states), replace=True)
-    state_to_treatment_year = dict(zip(treatment_states, treatment_years))
-
-    # Add a treatment column to the DataFrame
-    
-    data['TREATMENT'] = data.apply(lambda x: 1 if x['state'] in treatment_states and x['time'] >= state_to_treatment_year[x['state']] else 0, axis=1)
-
    
     return data
