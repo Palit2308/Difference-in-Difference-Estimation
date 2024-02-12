@@ -33,6 +33,9 @@ def cps_data(file_path):
 
     df = pd.get_dummies(df, columns=['Education_Category'], prefix='', prefix_sep='', drop_first=True)
 
+    boolean = ['Up to Grade 10', 'High School', "Master's Degree"]
+    df[boolean] = df[boolean].astype(int)
+
     df = df[~((df['STATEFIP'] > 56) | (df['STATEFIP'] == 11))]  # taking only the 50 states of the States and exclusing the regions as per the labels of the dataset
 
     df = df[(df['AGE'] >= 25) & (df['AGE'] <= 50)]  # taking the age group from 25 to 50
