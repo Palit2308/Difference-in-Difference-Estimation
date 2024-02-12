@@ -28,7 +28,7 @@ def cps_data(file_path):
     
     df['Education_Category'] = df['EDUC'].apply(categorize_education) # applying the function to create a new 'Education_Category' column
 
-    df = pd.get_dummies(df, columns=['Education_Category'], prefix='', prefix_sep='', drop_first=True).astype(int)
+    df = pd.get_dummies(df, columns=['Education_Category'], prefix='', prefix_sep='', drop_first=True)
 
     boolean = ['Up to Grade 10', 'High School', "Master's Degree"]
     df[boolean] = df[boolean].astype(int)
