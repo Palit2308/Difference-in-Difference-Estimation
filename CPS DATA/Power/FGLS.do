@@ -3,7 +3,7 @@
 
 clear
 
-local num_of_states 6 // Number fo states. Change here to adjust for different number of states
+local num_of_states 6 // Number of states. Change here to adjust for different number of states
 
 set seed 42
 set sortseed 42
