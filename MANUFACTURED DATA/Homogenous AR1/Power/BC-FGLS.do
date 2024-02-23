@@ -18,7 +18,7 @@ local mean = 0          // Mean of the white noise
 local std_dev = 1       // Standard deviation of the white noise
 
 
-local num_simulations 5000 // Number of simulations
+local num_simulations 2000 // Number of simulations
 local true_beta1_value 0.05 
 local alpha 0.05 
 
