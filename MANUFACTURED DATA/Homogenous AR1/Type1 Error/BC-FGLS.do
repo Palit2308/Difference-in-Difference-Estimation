@@ -10,8 +10,8 @@ local N = 50             // Number of states. Change here to adjust for differen
 local rho = 0.8          // AR(1) coefficient
 local T = 20            //  Number of time periods
 
-set seed 42
-set sortseed 42
+set seed 43
+set sortseed 43
 
 local num_individuals = 1  // Number of individuals per state
 local mean = 0          // Mean of the white noise
